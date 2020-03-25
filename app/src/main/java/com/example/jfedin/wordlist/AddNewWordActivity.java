@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,10 +12,21 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 public class AddNewWordActivity extends AppCompatActivity {
     private EditText wordEditText ;
     private EditText meaningEditText;
     private EditText typeEditText;
+
+    private boolean editMode ;
+    private int mID;
+
+    public static final String EXTRA_ID = "com.example.jfedin.wordlist.extraid";
+
+    public static final String EXTRA_WORD = "com.example.jfedin.wordlist.WORD";
+    public static final String EXTRA_MEANING = "com.example.jfedin.wordlist.MEANING";
+    public static final String EXTRA_TYPE = "com.example.jfedin.wordlist.TYPE";
 
     //view Model for add new word Activity
     private AddNewWordViewModel mViewModel ;
@@ -28,9 +40,25 @@ public class AddNewWordActivity extends AppCompatActivity {
         meaningEditText =findViewById(R.id.edit_text_meaning);
         typeEditText =findViewById(R.id.edit_text_Type);
 
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_exit);
-        setTitle("Add New Activity");
+        Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_exit);
+
+
+        Intent i = getIntent();
+        if (i.hasExtra(EXTRA_ID)){
+            // update
+            setTitle("Edit Word");
+            editMode = true ;
+            mID = i.getIntExtra(EXTRA_ID,-1);
+            wordEditText.setText(i.getStringExtra(EXTRA_WORD));
+            meaningEditText.setText(i.getStringExtra(EXTRA_MEANING));
+            typeEditText.setText(i.getStringExtra(EXTRA_TYPE));
+        }else {
+            // insert
+            setTitle("Add New Word");
+            editMode = false ;
+        }
         mViewModel = new ViewModelProvider(this).get(AddNewWordViewModel.class);
+
     }
 
     @Override
@@ -56,11 +84,20 @@ public class AddNewWordActivity extends AppCompatActivity {
         String meaning =meaningEditText.getText().toString().trim();
         String type = typeEditText.getText().toString().trim();
 
+        Words WordObject = new Words(word,meaning,type  );
+
         if (word.isEmpty()|| meaning.isEmpty()||type.isEmpty()){
             Toast.makeText(AddNewWordActivity.this,"please fill all field ",Toast.LENGTH_LONG).show();
             return;
         }
-        mViewModel.insert(new Words(word,meaning,type));
+
+        if (editMode){
+              WordObject.setId(mID);
+            mViewModel.insert(WordObject);
+        }else {
+            mViewModel.update(WordObject);
+        }
+
         finish();
 
 

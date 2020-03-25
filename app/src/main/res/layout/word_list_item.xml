@@ -27,7 +27,7 @@
            android:id="@+id/meaning_text_view"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:text="كتاب"
+           android:text="book"
            android:textAppearance="@style/TextAppearance.AppCompat.Large"
            android:layout_alignParentEnd="true"
            />

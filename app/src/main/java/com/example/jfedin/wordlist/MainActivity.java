@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
+
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -57,6 +57,20 @@ public class MainActivity extends AppCompatActivity {
                //RecycleView
                mWordAdapter.setWords(words);
               // Toast.makeText(MainActivity.this,"On Changed Worked",Toast.LENGTH_SHORT).show();
+           }
+       });
+
+       mWordAdapter.OnItemClickListener(new WordAdapter.OnItemClickListener() {
+           @Override
+           public void onItemClick(Words word) {
+               Intent intent = new Intent(MainActivity.this,AddNewWordActivity.class);
+               intent.putExtra(AddNewWordActivity.EXTRA_ID,word.getId());
+               intent.putExtra(AddNewWordActivity.EXTRA_WORD,word.getWordName());
+               intent.putExtra(AddNewWordActivity.EXTRA_MEANING,word.getWordMeaning());
+               intent.putExtra(AddNewWordActivity.EXTRA_TYPE,word.getWordType());
+
+               startActivity(intent);
+
            }
        });
     }
