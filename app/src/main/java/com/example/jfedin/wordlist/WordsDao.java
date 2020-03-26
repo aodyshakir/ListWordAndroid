@@ -21,10 +21,10 @@ public interface WordsDao {
   @Delete
     void delete(Words words);
 
-  @Query("DELETE from wordTable")
+  @Query("DELETE FROM wordTable")
    void deleteAllWords();
 
-  @Query("SELECT * From wordTable")
+  @Query("SELECT * From wordTable ")
   LiveData<List<Words>>getAllWords();
 
 }

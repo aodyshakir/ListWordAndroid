@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".AddNewWordActivity">
    <EditText
+       android:id="@+id/edit_text_word"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:hint="Word Name"
@@ -14,10 +15,11 @@
        android:layout_margin="10dp"
        android:textAppearance="@style/TextAppearance.AppCompat.Large"
        tools:ignore="MissingConstraints"
-       android:id="@+id/edit_text_word"
+
        android:autofillHints="" />
 
     <EditText
+        android:id="@+id/edit_text_meaning"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Word Meaning"
@@ -26,10 +28,10 @@
         android:layout_margin="10dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         tools:ignore="MissingConstraints"
-        android:id="@+id/edit_text_meaning"
         android:layout_below="@+id/edit_text_word"/>
 
     <EditText
+        android:id="@+id/edit_text_Type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Word Type"
@@ -38,7 +40,6 @@
         android:layout_margin="10dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         tools:ignore="MissingConstraints"
-        android:id="@+id/edit_text_Type"
         android:layout_below="@+id/edit_text_meaning"
         android:importantForAutofill="no" />
 

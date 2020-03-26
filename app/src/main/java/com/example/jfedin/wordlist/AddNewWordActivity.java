@@ -3,7 +3,6 @@ package com.example.jfedin.wordlist;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -47,7 +46,7 @@ public class AddNewWordActivity extends AppCompatActivity {
         if (i.hasExtra(EXTRA_ID)){
             // update
             setTitle("Edit Word");
-            editMode = true ;
+            editMode = false ;
             mID = i.getIntExtra(EXTRA_ID,-1);
             wordEditText.setText(i.getStringExtra(EXTRA_WORD));
             meaningEditText.setText(i.getStringExtra(EXTRA_MEANING));
@@ -55,8 +54,9 @@ public class AddNewWordActivity extends AppCompatActivity {
         }else {
             // insert
             setTitle("Add New Word");
-            editMode = false ;
+            editMode = true ;
         }
+
         mViewModel = new ViewModelProvider(this).get(AddNewWordViewModel.class);
 
     }
@@ -84,7 +84,7 @@ public class AddNewWordActivity extends AppCompatActivity {
         String meaning =meaningEditText.getText().toString().trim();
         String type = typeEditText.getText().toString().trim();
 
-        Words WordObject = new Words(word,meaning,type  );
+        Words wordObject = new Words(word,meaning,type  );
 
         if (word.isEmpty()|| meaning.isEmpty()||type.isEmpty()){
             Toast.makeText(AddNewWordActivity.this,"please fill all field ",Toast.LENGTH_LONG).show();
@@ -92,10 +92,10 @@ public class AddNewWordActivity extends AppCompatActivity {
         }
 
         if (editMode){
-              WordObject.setId(mID);
-            mViewModel.insert(WordObject);
+              wordObject.setId(mID);
+            mViewModel.insert(wordObject);
         }else {
-            mViewModel.update(WordObject);
+            mViewModel.update(wordObject);
         }
 
         finish();

@@ -23,16 +23,16 @@ public class WordsRepository {
     //operations
 
     //insert
-    public void insert(Words word){
-         new InsertAsyncTask(mWordsDao).execute(word);
+    public void insert(Words words){
+         new InsertAsyncTask(mWordsDao).execute(words);
     }
     //delete
-    public void delete(Words word){
-      new DeleteAsyncTask(mWordsDao).execute(word);
+    public void delete(Words words){
+      new DeleteAsyncTask(mWordsDao).execute(words);
     }
     //update
-    public void update(Words word){
-      new UpdateAsyncTask(mWordsDao).execute(word);
+    public void update(Words words){
+      new UpdateAsyncTask(mWordsDao).execute(words);
     }
     //getAllWords
     public LiveData<List<Words>> getAllWords(){
@@ -43,6 +43,7 @@ public class WordsRepository {
    public void deleteAllWords(){
      new DeleteAllWordsAsyncTask(mWordsDao).execute();
    }
+
 
    private static class InsertAsyncTask extends AsyncTask<Words,Void,Void>{
 
@@ -74,6 +75,8 @@ public class WordsRepository {
         }
     }
 
+
+
     private static class UpdateAsyncTask extends AsyncTask<Words,Void,Void>{
 
         private WordsDao mWordsDao ;
@@ -103,6 +106,7 @@ public class WordsRepository {
 
         @Override
         protected Void doInBackground(Void... voids) {
+
             return null;
         }
     }

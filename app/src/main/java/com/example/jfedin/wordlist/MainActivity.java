@@ -1,10 +1,11 @@
 package com.example.jfedin.wordlist;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -50,10 +51,12 @@ public class MainActivity extends AppCompatActivity {
 
        //ViewModel
         mWordViewModel= new ViewModelProvider(this).get(WordViewModel.class);
-       mWordViewModel.getAllWords().observe(this, new Observer<List<Words>>() {
+
+        mWordViewModel.getAllWords().observe(this, new Observer<List<Words>>() {
            @Override
            public void onChanged(List<Words> words) {
                //update UI
+
                //RecycleView
                mWordAdapter.setWords(words);
               // Toast.makeText(MainActivity.this,"On Changed Worked",Toast.LENGTH_SHORT).show();
@@ -62,16 +65,32 @@ public class MainActivity extends AppCompatActivity {
 
        mWordAdapter.OnItemClickListener(new WordAdapter.OnItemClickListener() {
            @Override
-           public void onItemClick(Words word) {
+           public void onItemClick(Words words) {
                Intent intent = new Intent(MainActivity.this,AddNewWordActivity.class);
-               intent.putExtra(AddNewWordActivity.EXTRA_ID,word.getId());
-               intent.putExtra(AddNewWordActivity.EXTRA_WORD,word.getWordName());
-               intent.putExtra(AddNewWordActivity.EXTRA_MEANING,word.getWordMeaning());
-               intent.putExtra(AddNewWordActivity.EXTRA_TYPE,word.getWordType());
+               intent.putExtra(AddNewWordActivity.EXTRA_ID,words.getId());
+               intent.putExtra(AddNewWordActivity.EXTRA_WORD,words.getWordName());
+               intent.putExtra(AddNewWordActivity.EXTRA_MEANING,words.getWordMeaning());
+               intent.putExtra(AddNewWordActivity.EXTRA_TYPE,words.getWordType());
 
                startActivity(intent);
 
            }
        });
+       new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+           @Override
+           public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+               return false;
+           }
+
+           @Override
+           public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+               // delete item
+              int position = viewHolder.getAdapterPosition();
+              mWordViewModel.delete(mWordAdapter.getWordAt(position));
+
+
+           }
+       }).attachToRecyclerView(mRecyclerView);
     }
 }

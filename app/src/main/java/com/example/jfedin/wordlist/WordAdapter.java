@@ -1,5 +1,4 @@
 package com.example.jfedin.wordlist;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +72,9 @@ public  class WordAdapter extends RecyclerView.Adapter<WordAdapter.WordViewHolde
         mListener = listener ;
 
 
+   }
+   public Words getWordAt(int pos){
+        return mWordList.get(pos);
    }
 
 

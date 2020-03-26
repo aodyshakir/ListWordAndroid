@@ -1,8 +1,6 @@
 package com.example.jfedin.wordlist;
-
 import android.content.Context;
 import android.os.AsyncTask;
-
 import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
@@ -12,11 +10,12 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 @Database(entities = Words.class ,version = 1)
 public abstract class WordRoomDb extends RoomDatabase {
 
-    private static WordRoomDb instance;
+    private static volatile WordRoomDb instance;
     public abstract WordsDao wordsDao();
 
+
     //Singlton
-    public static synchronized WordRoomDb getInstance(Context context){
+     static synchronized WordRoomDb getInstance(Context context){
         if (instance == null){
             instance = Room.databaseBuilder(context.getApplicationContext(),
                     WordRoomDb.class,"word-database")
@@ -52,9 +51,11 @@ public abstract class WordRoomDb extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
+
            mWordDao.insert(new Words("book","book","non"));
-           mWordDao.insert(new Words("book","book","non"));
-           mWordDao.insert(new Words("book","book","non"));
+
+
+
 
             return null;
         }
